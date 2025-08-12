@@ -5,7 +5,7 @@
 ---
 
 **Date:** 12 August 2025  
-**Status:** Draft for Legal, Broker & Auditor review  
+**Status:** Draft for Legal, Broker & Hedera review  
 
 ## Table of Contents
 
@@ -160,7 +160,7 @@ sequenceDiagram
 
 **Sequence notes**
 
-1. **Vendors → Feeder.** Approved vendors provide prices, order‑book depth, and FX data.
+1. **Vendors → Feeder.** [Approved vendors](https://ngxgroup.com/exchange/data/vendors-list/) provide prices, order‑book depth, and FX data.
 2. **Computation.** The Feeder calculates iNAV and a Dynamic Band (a volatility/liquidity‑aware guardrail) and signs each update.
 3. **Publication.** Updates `{ticker, price, band, seq, ts, sigs}` are posted to HCS.
 4. **Verification.** The Protocol/UI read via the Mirror Node, verify signatures, ordering, and freshness, and cache the last‑good values.
@@ -447,7 +447,33 @@ Market/liquidity, oracle/data, execution windows, regulatory change, counterpart
 Closed market: cancellable until open. Open (Initiated): not cancellable once funds are with broker. Weekends/holidays: queued for next window; CLOB may remain open subject to Band/staleness rules.
 
 **D — Asset setup checklist**
-Ticker, issuance (`xNGX-{ticker}`), broker routing, CSCS omnibus mapping, HCS topic IDs and signers, fee routing, disclosures and dividend pages.  
+Ticker, issuance (`xNGX-{ticker}`), broker routing, CSCS omnibus mapping, HCS topic IDs and signers, fee routing, disclosures and dividend pages.
+
+**E — Glossary of terms**
+
+* **USDC‑H (USD on Hedera):** USD stablecoin (USDC) issued on the Hedera network. Used for user balances, fee payment, primary remittances and dividend distributions.
+* **CSCS (Central Securities Clearing System):** Nigeria’s central securities depository and post‑trade infrastructure. Holds and settles the underlying NGX shares in the SPV’s omnibus account.
+* **PoR (Proof‑of‑Reserves):** A monthly, independent attestation that compares **off‑chain** CSCS holdings with **on‑chain** token supply. Results are published (PDF + hash).
+* **SEC (Nigeria):** The Securities and Exchange Commission (Nigeria), regulator of the capital market. A “SEC‑approved broker” here refers to a broker/dealer registered with the Nigerian SEC and admitted to trade on NGX.
+* **NGX Group (NGXGROUP):** the listed holding company that oversees the exchange subsidiaries—distinct from the Nigerian Exchange (NGX) trading venue.
+* **Dynamic Band:** Venue‑defined percentage guardrail around iNAV that adapts to volatility and liquidity. Orders must be **inside‑Band** at entry and at match. Bands are computed off‑chain and published to users/contracts via HCS.
+* **iNAV (Indicative Net Asset Value):** A continuously updated fair‑value estimate per token derived from vendor prices, depth and FX. iNAV differs from the venue last trade; it is used together with the Band to constrain execution.
+* **HTS (Hedera Token Service):** Hedera service used to create and manage tokens (including KYC‑gated assets) with low‑latency, low‑fee transfers.
+* **HCS (Hedera Consensus Service):** Append‑only, timestamped message bus used to publish signed price/Band updates; consumed by the Protocol/UI via Mirror Nodes.
+* **Mirror Node:** Read‑only service that streams ordered, timestamped HCS messages for applications.
+* **CLOB (Central Limit Order Book):** Matching engine using price–time priority for market and limit orders. Supports partial fills and auctions.
+* **KYC Levels:** **L0** browse only; **L1** (Sumsub) enables trade/mint/burn/borrow/supply; **L2** (broker + CSCS) enables **Claim Shares** only (disabled at launch).
+* **SPV (Special Purpose Vehicle):** The BVI entity that legally owns the underlying NGX shares backing each tokenized asset.
+* **NGX (Nigerian Exchange):** Nigeria’s national securities exchange; execution venue for the underlying shares.
+* **RFQ / Auction modes:** Alternative execution modes used when data is stale or during session open/close/halts to improve price discovery.
+* **T+0 / T+1:** Standard settlement conventions on NGX (same day / next business day).
+* **Inside‑Band:** A price is inside‑Band if its deviation from iNAV is within the currently published Band for that ticker.
+* **Tolerance (user) & Clamp:** User‑selected max slippage vs iNAV applied to Primary Mint, constrained to **−5% ≤ tolerance ≤ +2.5%**. Execution requires **inside‑Band ∧ within‑tolerance**.
+* **Primary Mint:** Broker‑routed purchase of underlying shares during NGX windows, followed by on‑chain minting of `xNGX-{ticker}` to the user (net of fees).
+* **Primary Burn (USD):** User moves tokens to escrow; broker sells underlying during NGX windows; proceeds remitted to user in USDC‑H net of fees. No L2/CSCS required.
+* **Claim Shares (later):** Burn tokens to receive off‑chain shares into a personal CSCS account. Requires Level‑2 onboarding; disabled at launch.
+* **Staleness:** A condition where price/Band messages are outdated or missing; continuous matching may pause and primary actions outside Band are blocked until fresh data resumes.
+
 
 **Contact:** [contact@xngx.markets](mailto:contact@xngx.markets)  
 **© xNG.markets 2025 — All rights reserved.**
