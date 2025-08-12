@@ -447,6 +447,7 @@ Market/liquidity, oracle/data, execution windows, regulatory change, counterpart
 Closed market: cancellable until open. Open (Initiated): not cancellable once funds are with broker. Weekends/holidays: queued for next window; CLOB may remain open subject to Band/staleness rules.
 
 **D — Asset setup checklist**
-Ticker, issuance (`xNGX-{ticker}`), broker routing, CSCS omnibus mapping, HCS topic IDs and signers, fee routing, disclosures and dividend pages.
-**Contact:** [contact@xngx.markets](mailto:contact@xngx.markets)
+Ticker, issuance (`xNGX-{ticker}`), broker routing, CSCS omnibus mapping, HCS topic IDs and signers, fee routing, disclosures and dividend pages.  
+
+**Contact:** [contact@xngx.markets](mailto:contact@xngx.markets)  
 **© xNG.markets 2025 — All rights reserved.**
