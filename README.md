@@ -4,8 +4,6 @@
 **Date:** 12 August 2025
 **Status:** Draft for Legal, Broker & Auditor review
 
----
-
 ## Table of Contents
 
 1. [Abstract](#abstract)
@@ -32,19 +30,15 @@
 17. [Risks](#risks)
 18. [Appendices](#appendices)
 
----
-
 ## Abstract
 
 xNG.markets mirrors select NGX equities as Hedera Token Service (HTS) assets (`xNGX-{ticker}`) with prices and guardrails (**Dynamic Band**) published on‑chain via Hedera Consensus Service (HCS). Users trade via a **Secondary CLOB** and **Primary Mint/Burn** windows synchronized with NGX market hours and routed to a Nigerian **SEC‑approved broker**. Underlying shares are held at **CSCS** via a **BVI SPV**. Dividends are distributed to token holders in **USDC‑H (USD)**. A monthly **Proof‑of‑Reserves** (PoR) compares off‑chain CSCS holdings to on‑chain supply through independent attestation. **KYC Level‑1** enables trading; **Level‑2** with the broker/CSCS is only required for the later **Claim Shares** feature.
 
----
 
 ## Introduction & Market Context
 
 Nigeria’s equity market is expanding in depth and participation across banks, telecoms, energy, consumer and agriculture. xNG.markets lowers access frictions by offering 24/7 order entry with transparent on‑chain guardrails and regulated primary flows that settle through a licensed broker and CSCS custody.
 
----
 
 ## Market Opportunity & Why Now
 
@@ -54,7 +48,6 @@ Nigeria’s equity market is expanding in depth and participation across banks, 
 * Diaspora remittances are large; tokenized NGX exposure removes onboarding and rail frictions.
 * On‑chain delivery adds transparency (HCS + PoR), fractional access, composability (collateralized borrowing), and programmable distribution.
 
----
 
 ## Product Overview
 
@@ -64,7 +57,6 @@ Nigeria’s equity market is expanding in depth and participation across banks, 
 * **Dividends:** Converted and distributed in **USDC‑H (USD)**.
 * **Compliance:** **Level‑1 KYC** for trading; **Level‑2** only for **Claim Shares** (disabled at launch).
 
----
 
 ## System Architecture (Hedera‑first)
 
@@ -128,8 +120,6 @@ sequenceDiagram
   Auditor-->>UI: Attestation published
 ```
 
----
-
 ## Market Data: Price, iNAV & Dynamic Band
 
 ```mermaid
@@ -160,8 +150,6 @@ sequenceDiagram
 
 **Notes**
 The **Dynamic Band** is a volatility/liquidity‑aware range around iNAV with per‑ticker clamps. Orders must be **inside‑Band** at entry and at match. If data is **stale**, primary actions outside Band are blocked and the venue may switch to auction/RFQ.
-
----
 
 ## Trading Mechanics
 
@@ -259,7 +247,6 @@ sequenceDiagram
 
 Burn `xNGX-{ticker}` to receive off‑chain shares into a personal CSCS account. Requires broker + CSCS onboarding (**Level‑2**). Disabled at launch pending regulatory sign‑off.
 
----
 
 ## Fees
 
@@ -273,13 +260,9 @@ Burn `xNGX-{ticker}` to receive off‑chain shares into a personal CSCS account.
 
 *Network fees on Hedera (HTS/HCS) apply separately.*
 
----
-
 ## Dividends
 
 Issuer → Broker → Protocol → Holders. Proceeds are converted and distributed in **USDC‑H** on a best‑effort **T+1** after issuer payment, net of taxes/withholding where applicable.
-
----
 
 ## KYC/AML & Eligibility
 
@@ -289,15 +272,11 @@ Issuer → Broker → Protocol → Holders. Proceeds are converted and distribut
 
 Tokens are issued with an HTS **KYC flag**. Eligibility lists are maintained with counsel and enforced in‑app.
 
----
-
 ## Legal & Structure
 
 * **BVI SPV** holds underlying NGX shares in a CSCS omnibus via the partner broker.
 * Tokens provide **economic exposure only** (no voting/meeting rights).
 * Terms & Risk disclosures must be accepted before trading.
-
----
 
 ## Proof‑of‑Reserves & Attestations
 
@@ -322,8 +301,6 @@ sequenceDiagram
     Proto-->>UI: User notice + remediation steps
   end
 ```
-
----
 
 ## Borrow & Supply (Lending)
 
@@ -376,21 +353,15 @@ sequenceDiagram
   Lend-->>U: Remit remainder minus 2% fee
 ```
 
----
-
 ## Security, Audits & Operations
 
 * Independent audits before mainnet. Admin actions protected via multi‑sig + timelock.
 * HCS signatures, sequence and freshness enforced; UI shows **Stale** banners.
 * Monitoring: Mirror subscriptions, PoR calendar, incident runbooks.
 
----
-
 ## Governance & Upgradability
 
 Upgradable parameters: Band source, tolerance clamps, fee rates, supported assets — via controlled governance (multi‑sig + delay). Community signaling informs listings, subject to regulatory fit and liquidity.
-
----
 
 ## Roadmap
 
@@ -400,13 +371,9 @@ Upgradable parameters: Band source, tolerance clamps, fee rates, supported asset
 4. **Rails:** NGN bank & mobile money on/off‑ramps (partners).
 5. **Analytics:** Fundamentals, LLM chat, alerts.
 
----
-
 ## Risks
 
 Market/liquidity, oracle/data, execution windows, regulatory change, counterparty/custody, technology and operational risks can lead to losses, delays or halts. Tokens may trade at a premium/discount to iNAV. You can lose money.
-
----
 
 ## Appendices
 
@@ -432,7 +399,6 @@ Closed market: cancellable until open. Open (Initiated): not cancellable once fu
 **D — Asset setup checklist**
 Ticker, issuance (`xNGX-{ticker}`), broker routing, CSCS omnibus mapping, HCS topic IDs and signers, fee routing, disclosures and dividend pages.
 
----
 
 **Contact:** [contact@xngx.markets](mailto:contact@xngx.markets)
 **© xNG.markets 2025 — All rights reserved.**
